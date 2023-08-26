@@ -6,8 +6,8 @@ from accounts.views import RegisterView, ProfileView
 app_name = 'accounts'
 
 urlpatterns = [
-    path('login/', LoginView.as_view(template_name='accounts/login.html'), name="login"),
-    path('logout/', LogoutView.as_view(), name="logout"),
-    path('register/', RegisterView.as_view(), name="register"),
-    path('profile/<int:pk>', ProfileView.as_view(), name='profile'),
+    path('accounts/login/', LoginView.as_view(template_name='accounts/login.html'), name="login"),
+    path('accounts/logout/', LogoutView.as_view(), name="logout"),
+    path('accounts/register/', RegisterView.as_view(), name="register"),
+    path('accounts/profile/<int:pk>', ProfileView.as_view(), name='profile'),
 ]

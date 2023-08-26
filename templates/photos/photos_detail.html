@@ -13,6 +13,7 @@
                         <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
                         <p class="card-text">{{ photo.create_date }}</p>
                         <p class="card-text">{{ photo.album }}</p>
+                        <p class="card-text">{{ photo.private }}</p>
                         <a href="{% url "photos:change" photo.pk %}" class="btn btn-warning">Изменить</a>
                         <a href="{% url "photos:delete" photo.pk %}" class="btn btn-danger">Удалить</a>
                     </div>

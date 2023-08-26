@@ -7,9 +7,6 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ album.title }}</h5>
                     <p class="card-text">{{ album.discriptions }}</p>
-                    <p class="card-text">{{ album.author.first_name }} {{ album.author.last_name }}</p>
-                    <p class="card-text">{{ album.create_date }}</p>
-                    <p class="card-text">{{ album.private }}</p>
                     <a href="{% url "albums:change" album.pk %}" class="btn btn-warning">Изменить</a>
                     <a href="{% url "albums:delete" album.pk %}" class="btn btn-danger">Удалить</a>
                 </div>

@@ -6,13 +6,30 @@
             {% for photo in photos %}
                 <div class="col-3 mt-3">
                     <div class="card" style="width: 18rem;">
-                        <a href="{% url 'photos:detail' photo.pk %}"><img src="{{ photo.photo.url }}"
-                                                                          class="card-img-top" alt="photos"></a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'photos:detail' photo.pk %}"><img src="{{ photo.photo.url }}"
+                                                                              class="card-img-top" alt="photos"></a>
+                        {% else %}
+                            <img src="{{ photo.photo.url }}"
+                                 class="card-img-top" alt="photos">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ photo.title }}</h5>
-                            <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
+                            {% if user.is_authenticated %}
+                                <a href="{% url "accounts:profile" photo.author.pk %}"
+                                   class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</a>
+                            {% else %}
+                                <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
+                            {% endif %}
                             <p class="card-text">{{ photo.create_date }}</p>
-                            <p class="card-text">{{ photo.album }}</p>
+                            {% if user.is_authenticated and photo.album %}
+                                <a href="{% url "albums:detail" photo.album.pk %}"
+                                   class="card-text">{{ photo.album.title }}</a>
+                            {% else %}
+                                <p class="card-text">
+                                    {% if photo.album %}{{ photo.album }}{% else %} Альбома нет{% endif %}</p>
+                            {% endif %}
+                            <p class="card-text">{{ photo.private }}</p>
                         </div>
                     </div>
                 </div>

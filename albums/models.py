@@ -16,4 +16,4 @@ class Albums(models.Model):
         verbose_name_plural = 'Альбомы'
 
     def __str__(self):
-        return f'{self.discriptions}'
+        return f'{self.title}'
