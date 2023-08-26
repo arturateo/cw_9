@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <img src="{{ photo.photo.url }}" class="card-img-top" alt="photos">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ photo.title }}</h5>
+                        <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
+                        <p class="card-text">{{ photo.create_date }}</p>
+                        <p class="card-text">{{ photo.album }}</p>
+                        <a href="{% url "photos:change" photo.pk %}" class="btn btn-warning">Изменить</a>
+                        <a href="{% url "photos:delete" photo.pk %}" class="btn btn-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,13 +6,13 @@
             {% for photo in photos %}
                 <div class="col-3">
                     <div class="card" style="width: 18rem;">
-                        <img src="{{ photo.photo.url }}" class="card-img-top" alt="photos">
+                        <a href="{% url 'photos:detail' photo.pk %}"><img src="{{ photo.photo.url }}"
+                                                                          class="card-img-top" alt="photos"></a>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of
-                                the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <h5 class="card-title">{{ photo.title }}</h5>
+                            <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
+                            <p class="card-text">{{ photo.create_date }}</p>
+                            <p class="card-text">{{ photo.album }}</p>
                         </div>
                     </div>
                 </div>

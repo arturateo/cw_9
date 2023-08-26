@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Удаление темы{% endblock %}
+{% block content %}
+    <div class="d-block">
+        <p class="card-text">Вы точно хотите удалить фото:<span class="text-danger"> {{ photo.title }}</span>
+        </p>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="btn-group" role="group">
+            <button type="submit" name="delete" class="btn btn-danger" value="yes">Да</button>
+        </div>
+        <a class="btn btn-primary" href="{% url "photos:home" %}">Нет</a>
+    </form>
+{% endblock %}
