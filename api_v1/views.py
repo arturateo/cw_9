@@ -23,16 +23,16 @@ class FavoritesPhotoViewSet(viewsets.ModelViewSet):
     serializer_class = PhotosSerializer
 
     @action(methods=["POST"], detail=True, url_path="favorite", url_name="favorite")
-    def add_like(self, request, *args, **kwargs):
+    def add_favorite_photo(self, request, *args, **kwargs):
         photo = self.get_object()
         photo.favorites.add(request.user)
         return Response({"answer": "Фото добавлен в избраное"})
 
     @action(methods=["DELETE"], detail=True, url_path="unfavorite", url_name="unfavorite")
-    def delete_like(self, request, *args, **kwargs):
+    def delete_favorite_photo(self, request, *args, **kwargs):
         photo = self.get_object()
         photo.favorites.remove(request.user)
-        return Response({"answer": "Альбом удален из избранного"})
+        return Response({"answer": "Фото удален из избранного"})
 
 
 class FavoritesAlbumViewSet(viewsets.ModelViewSet):
