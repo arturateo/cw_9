@@ -20,3 +20,34 @@ class CustomRegisterForm(UserCreationForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+
+
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label='',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'username or email',
+            }
+        )
+    )
+
+    password = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'password'
+            }
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })

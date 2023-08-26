@@ -1,5 +1,8 @@
 <form action="" method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endfor %}
     {% for field in form %}
         <div class="mb-3">
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -7,6 +10,9 @@
             {% for error in field.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    {{ form.non_field_errors }}
                 </div>
             {% endfor %}
         </div>

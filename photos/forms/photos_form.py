@@ -11,16 +11,20 @@ class PhotosForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['album'].queryset = self.fields['album'].queryset.filter(author=kwargs['initial']['user'])
+
         for field in iter(self.fields):
             if field != 'private':
                 self.fields[field].widget.attrs.update({
                     'class': 'form-control'
                 })
 
-    def clean_private(self):
-        cleaned_data = super().clean()
-        private = cleaned_data.get('private')
-        album = cleaned_data.get('album')
-        if album.private != private:
-            raise ValidationError("В приватном альбоме - фотография не может быть публичной")
-        return True
+    def clean(self):
+        if self.cleaned_data['album']:
+            if self.cleaned_data['album'].private != self.cleaned_data['private'] and \
+                    self.cleaned_data['private'] == True:
+                raise ValidationError("Приватная фотография - не может быть в публичном альбоме")
+            if self.cleaned_data['album'].private != self.cleaned_data['private'] and \
+                    self.cleaned_data['private'] == False:
+                raise ValidationError("В приватном альбоме - фотография не может быть публичной")
+        return self.cleaned_data

@@ -12,7 +12,7 @@
                         <h5 class="card-title">{{ photo.title }}</h5>
                         <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
                         <p class="card-text">{{ photo.create_date }}</p>
-                        <p class="card-text">{{ photo.album }}</p>
+                        <p class="card-text">{% if photo.album %}{{ photo.album }}{% else %} Альбома нет{% endif %}</p>
                         <p class="card-text">{{ photo.private }}</p>
                         {% if user in photo.favorites.all %}
                             <a class="favoritesPhoto" href="{% url "api_v1:photos-unfavorite" photo.pk %}"

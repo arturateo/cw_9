@@ -1,10 +1,13 @@
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView
-from accounts.forms import CustomRegisterForm
+from rest_framework.authtoken.models import Token
+
+from accounts.forms import CustomRegisterForm, LoginForm
 from accounts.models import User
 from albums.models import Albums
 from photos.models import Photos
@@ -18,6 +21,7 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        Token.objects.create(user=user)
         login(self.request, user)
         return redirect(self.get_success_url())
 
@@ -46,3 +50,9 @@ class ProfileView(LoginRequiredMixin, DetailView):
             context['photos'] = photos.filter(Q(author__pk=self.object.pk)).distinct()
             context['albums'] = albums.filter(Q(author__pk=self.object.pk)).distinct()
         return context
+
+
+class CustomLoginView(LoginView):
+    template_name = 'accounts/login.html'
+    form_class = LoginForm
+

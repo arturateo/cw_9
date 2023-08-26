@@ -45,14 +45,20 @@ class PhotosCreateView(LoginRequiredMixin, CreateView):
     form_class = PhotosForm
     template_name = 'photos/photos_create.html'
 
+    def get_form_kwargs(self):
+        kw = super().get_form_kwargs()
+        kw['initial'] = {"user": self.request.user}
+        return kw
 
     def form_valid(self, form):
+        print(2)
         photo = form.save(commit=False)
         photo.author = self.request.user
         photo.save()
         return redirect("photos:detail", pk=photo.pk)
 
     def get_success_url(self):
+        print(1)
         return reverse("photos:detail", kwargs={"pk": self.object.pk})
 
 
@@ -61,6 +67,16 @@ class PhotosUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = PhotosForm
     template_name = "photos/photos_edit.html"
     permission_required = "photos.change_photos"
+
+    def get_form_kwargs(self):
+        kw = super().get_form_kwargs()
+        kw['initial'] = {"user": self.request.user}
+        return kw
+
+    def form_valid(self, form):
+        photo = form.save(commit=False)
+        photo.save()
+        return redirect("photos:detail", pk=photo.pk)
 
     def get_success_url(self):
         return reverse("photos:detail", kwargs={"pk": self.object.pk})

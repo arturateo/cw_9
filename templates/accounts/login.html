@@ -1,16 +1,9 @@
-{% extends 'base.html' %}
-{% block title %}Вход{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Вход в аккаунт{% endblock %}
+
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="login" class="form-label">Логин</label>
-            <input type="text" name="username" class="form-control" id="login">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Пароль</label>
-            <input type="password" name="password" class="form-control" id="password">
-        </div>
-        <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
+    <div class="container">
+        {% include "partials/form.html" with button_text="Войти" %}
+    </div>
 {% endblock %}
