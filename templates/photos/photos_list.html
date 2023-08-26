@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row mt-3">
+            {% for photo in photos %}
+                <div class="col-3">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ photo.photo.url }}" class="card-img-top" alt="photos">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of
+                                the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
