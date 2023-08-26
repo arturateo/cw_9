@@ -9,6 +9,15 @@
                     <p class="card-text">{{ album.discriptions }}</p>
                     <a href="{% url "albums:change" album.pk %}" class="btn btn-warning">Изменить</a>
                     <a href="{% url "albums:delete" album.pk %}" class="btn btn-danger">Удалить</a>
+                    {% if user in album.favorites.all %}
+                        <a class="favoritesAlbum" href="{% url "api_v1:albums-unfavorite" album.pk %}"
+                           data-album-id="{{ album.pk }}"><i
+                                class="fa-solid fa-heart fa-2xl"></i></a>
+                    {% else %}
+                        <a class="favoritesAlbum" href="{% url "api_v1:albums-favorite" album.pk %}"
+                           data-album-id="{{ album.pk }}"><i
+                                class="fa-regular fa-heart fa-2xl"></i></a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -23,6 +32,15 @@
                             <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
                             <p class="card-text">{{ photo.create_date }}</p>
                             <p class="card-text">{{ photo.album }}</p>
+                            {% if user in photo.favorites.all %}
+                                <a class="favoritesPhoto" href="{% url "api_v1:photos-unfavorite" photo.pk %}"
+                                   data-photo-id="{{ photo.pk }}"><i
+                                        class="fa-solid fa-heart fa-2xl"></i></a>
+                            {% else %}
+                                <a class="favoritesPhoto" href="{% url "api_v1:photos-favorite" photo.pk %}"
+                                   data-photo-id="{{ photo.pk }}"><i
+                                        class="fa-regular fa-heart fa-2xl"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

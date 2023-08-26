@@ -8,8 +8,8 @@ class Photos(models.Model):
     author = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='author_photos',
                                verbose_name='Автор')
     title = models.CharField(null=False, blank=False, max_length=100, verbose_name='Подпись фотографии')
-    album = models.ForeignKey('albums.Albums', on_delete=models.CASCADE, blank=True, null=True, related_name='albums',
-                              verbose_name='Альбом')
+    album = models.ForeignKey('albums.Albums', on_delete=models.CASCADE, blank=True, null=True,
+                              related_name='albums', verbose_name='Альбом')
     favorites = models.ManyToManyField(get_user_model(), related_name='favorites_photo', verbose_name='Избранное')
     private = models.BooleanField(null=False, blank=False, verbose_name='Приватное фото')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')

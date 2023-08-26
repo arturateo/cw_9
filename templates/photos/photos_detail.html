@@ -14,6 +14,15 @@
                         <p class="card-text">{{ photo.create_date }}</p>
                         <p class="card-text">{{ photo.album }}</p>
                         <p class="card-text">{{ photo.private }}</p>
+                        {% if user in photo.favorites.all %}
+                            <a class="favoritesPhoto" href="{% url "api_v1:photos-unfavorite" photo.pk %}"
+                               data-photo-id="{{ photo.pk }}"><i
+                                    class="fa-solid fa-heart fa-2xl"></i></a>
+                        {% else %}
+                            <a class="favoritesPhoto" href="{% url "api_v1:photos-favorite" photo.pk %}"
+                               data-photo-id="{{ photo.pk }}"><i
+                                    class="fa-regular fa-heart fa-2xl"></i></a>
+                        {% endif %}
                         <a href="{% url "photos:change" photo.pk %}" class="btn btn-warning">Изменить</a>
                         <a href="{% url "photos:delete" photo.pk %}" class="btn btn-danger">Удалить</a>
                     </div>

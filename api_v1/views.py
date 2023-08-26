@@ -5,6 +5,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api_v1.serializers import PhotosSerializer, AlbumsSerializer
 from albums.models import Albums
@@ -50,3 +51,12 @@ class FavoritesAlbumViewSet(viewsets.ModelViewSet):
         album = self.get_object()
         album.favorites.remove(request.user)
         return Response({"answer": "Альбом удален из избранного"})
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        user.auth_token.delete()
+        return Response({'status': 'ok'})

@@ -1,9 +1,8 @@
-from django.contrib.auth.views import LogoutView
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from api_v1.views import FavoritesPhotoViewSet, FavoritesAlbumViewSet
+from api_v1.views import FavoritesPhotoViewSet, FavoritesAlbumViewSet, LogoutView
 
 router = routers.DefaultRouter()
 router.register('favorites-photo', FavoritesPhotoViewSet)

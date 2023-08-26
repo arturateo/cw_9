@@ -19,6 +19,12 @@ class PhotosListView(ListView):
     context_object_name = 'photos'
     ordering = ("-create_date",)
 
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            response.set_cookie('token', request.user.auth_token.key)
+        return response
+
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(Q(private=False))
@@ -38,7 +44,6 @@ class PhotosCreateView(LoginRequiredMixin, CreateView):
     model = Photos
     form_class = PhotosForm
     template_name = 'photos/photos_create.html'
-
 
 
     def form_valid(self, form):
