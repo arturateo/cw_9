@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="card-body">
+                    <h5 class="card-title">{{ album.title }}</h5>
+                    <p class="card-text">{{ album.discriptions }}</p>
+                    <p class="card-text">{{ album.author.first_name }} {{ album.author.last_name }}</p>
+                    <p class="card-text">{{ album.create_date }}</p>
+                    <p class="card-text">{{ album.private }}</p>
+                    <a href="{% url "albums:change" album.pk %}" class="btn btn-warning">Изменить</a>
+                    <a href="{% url "albums:delete" album.pk %}" class="btn btn-danger">Удалить</a>
+                </div>
+            </div>
+        </div>
         <div class="row mt-3">
             {% for photo in photos %}
                 <div class="col-3 mt-3">

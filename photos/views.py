@@ -54,4 +54,3 @@ class PhotosDeleteView(DeleteView):
     template_name = "photos/photos_delete.html"
     context_object_name = 'photo'
     success_url = reverse_lazy("photos:home")
-

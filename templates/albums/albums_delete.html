@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Удаление фото{% endblock %}
+{% block title %}Удаление альбома{% endblock %}
 {% block content %}
     <div class="d-block">
-        <p class="card-text">Вы точно хотите удалить фото:<span class="text-danger"> {{ photo.title }}</span>
+        <p class="card-text">Вы точно хотите удалить альбом:<span class="text-danger"> {{ album.title }}</span>
         </p>
     </div>
     <form method="POST">

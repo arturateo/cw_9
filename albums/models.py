@@ -7,7 +7,7 @@ class Albums(models.Model):
                                verbose_name='Автор')
     title = models.CharField(null=False, blank=False, max_length=100, verbose_name='Название альбома')
     discriptions = models.TextField(null=True, blank=True, max_length=300, verbose_name='Описание альбома')
-    private = models.BooleanField(null=True, blank=True, verbose_name='Приватный альбом')
+    private = models.BooleanField(null=False, blank=False, verbose_name='Приватный альбом')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
