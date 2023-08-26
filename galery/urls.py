@@ -19,9 +19,15 @@ from django.contrib import admin
 from django.urls import path, include
 from galery import settings
 
+api_list = [
+    path('v1/', include('api_v1.urls')),
+]
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('photos.urls')),
     path('', include('albums.urls')),
     path('', include('accounts.urls')),
+    path('api/', include(api_list)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
