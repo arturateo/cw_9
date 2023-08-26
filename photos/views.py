@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
 
+from albums.models import Albums
 from photos.forms.photos_form import PhotosForm
 from photos.models import Photos
 
@@ -37,6 +38,8 @@ class PhotosCreateView(LoginRequiredMixin, CreateView):
     model = Photos
     form_class = PhotosForm
     template_name = 'photos/photos_create.html'
+
+
 
     def form_valid(self, form):
         photo = form.save(commit=False)

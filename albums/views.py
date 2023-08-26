@@ -39,7 +39,6 @@ class AlbumsCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse("albums:detail", kwargs={"pk": self.object.pk})
 
-
 class AlbumsUpdateView(PermissionRequiredMixin, UpdateView):
     model = Albums
     form_class = AlbumsForm
