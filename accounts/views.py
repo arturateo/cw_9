@@ -44,11 +44,13 @@ class ProfileView(LoginRequiredMixin, DetailView):
         photos = Photos.objects.all()
         albums = Albums.objects.all()
         if self.object.pk != self.request.user.pk:
-            context['photos'] = photos.filter(Q(author__pk=self.object.pk) & Q(private=False)).distinct()
-            context['albums'] = albums.filter(Q(author__pk=self.object.pk) & Q(private=False)).distinct()
+            context['photos'] = photos.filter(Q(author__pk=self.object.pk) & Q(private=False) & Q(album=None)).distinct().order_by(
+                "-create_date")
+            context['albums'] = albums.filter(Q(author__pk=self.object.pk) & Q(private=False)).distinct().order_by(
+                "-create_date")
         else:
-            context['photos'] = photos.filter(Q(author__pk=self.object.pk)).distinct()
-            context['albums'] = albums.filter(Q(author__pk=self.object.pk)).distinct()
+            context['photos'] = photos.filter(Q(author__pk=self.object.pk) & Q(album=None)).distinct().order_by("-create_date")
+            context['albums'] = albums.filter(Q(author__pk=self.object.pk)).distinct().order_by("-create_date")
         return context
 
 
@@ -62,4 +64,3 @@ class CustomLoginView(LoginView):
         if not Token.objects.all().filter(user=user):
             Token.objects.create(user=user)
         return redirect(LOGIN_REDIRECT_URL)
-

@@ -1,8 +1,10 @@
+import secrets
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
@@ -10,6 +12,16 @@ from django.urls import reverse, reverse_lazy
 from albums.models import Albums
 from photos.forms.photos_form import PhotosForm
 from photos.models import Photos
+
+
+def get_uniq_url(request, *args, **kwargs):
+    if request.method == "GET":
+        photo = Photos.objects.all().filter(id=kwargs['pk']).get()
+        if photo.author.pk == request.user.pk:
+            photo.uniq_url = secrets.token_urlsafe(32)[:32]
+            photo.save()
+            return redirect("photos:private_detail", url=photo.uniq_url)
+    return redirect("photos:detail", pk=kwargs['pk'])
 
 
 # Create your views here.
@@ -40,7 +52,12 @@ class PhotosView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
         return self.request.user == self.get_object().author or not self.get_object().private
 
 
-
+class PhotosPrivateView(DetailView):
+    model = Photos
+    template_name = 'photos/photos_detail.html'
+    context_object_name = 'photo'
+    slug_field = 'uniq_url'
+    slug_url_kwarg = 'url'
 
 class PhotosCreateView(LoginRequiredMixin, CreateView):
     model = Photos

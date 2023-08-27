@@ -7,6 +7,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ album.title }}</h5>
                     <p class="card-text">{{ album.discriptions }}</p>
+                    <p class="card-text">{{ album.private }}</p>
                     <a href="{% url "albums:change" album.pk %}" class="btn btn-warning">Изменить</a>
                     <a href="{% url "albums:delete" album.pk %}" class="btn btn-danger">Удалить</a>
                     {% if user in album.favorites.all %}
@@ -32,6 +33,8 @@
                             <p class="card-text">{{ photo.author.first_name }} {{ photo.author.last_name }}</p>
                             <p class="card-text">{{ photo.create_date }}</p>
                             <p class="card-text">{{ photo.album }}</p>
+                            <p class="card-text">{{ photo.private }}</p>
+
                             {% if user in photo.favorites.all %}
                                 <a class="favoritesPhoto" href="{% url "api_v1:photos-unfavorite" photo.pk %}"
                                    data-photo-id="{{ photo.pk }}"><i

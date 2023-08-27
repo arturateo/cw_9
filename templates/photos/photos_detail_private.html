@@ -25,15 +25,11 @@
                         {% endif %}
                         <a href="{% url "photos:change" photo.pk %}" class="btn btn-warning">Изменить</a>
                         <a href="{% url "photos:delete" photo.pk %}" class="btn btn-danger">Удалить</a>
-                        {% if photo.author == user %}
-                            {% if photo.uniq_url %}
-                                <p class="card-text">
-                                    http://127.0.0.1:8000{% url 'photos:private_detail' photo.uniq_url %}</p>
-                            {% else %}
-                                <a href="{% url "photos:create_uniq_url" photo.pk %}" class="btn btn-primary">Сгенерировать
-                                    уникальную
-                                    ссылку</a>
-                            {% endif %}
+                        {% if photo.uniq_url %}
+                            <p class="card-text">{% url 'photos:private_detail' photo.uniq_url %}</p>
+                        {% else %}
+                            <a href="{% url "photos:delete" photo.pk %}" class="btn btn-primary">Сгенерировать уникальную
+                            ссылку</a>
                         {% endif %}
                     </div>
                 </div>

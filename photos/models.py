@@ -13,6 +13,7 @@ class Photos(models.Model):
     favorites = models.ManyToManyField(get_user_model(), related_name='favorites_photo', verbose_name='Избранное')
     private = models.BooleanField(null=False, blank=False, verbose_name='Приватное фото')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    uniq_url = models.CharField(max_length=32, null=False, blank=False, verbose_name="Уникальный url")
 
     class Meta:
         db_table = 'photos'
@@ -20,4 +21,4 @@ class Photos(models.Model):
         verbose_name_plural = 'Фотографии'
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.title} {self.private}'
