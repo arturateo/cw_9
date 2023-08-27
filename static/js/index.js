@@ -7,8 +7,8 @@ async function makeRequest(url, method = 'GET') {
             "Content-Type": "application/json",
         }
     }
-
-    if (["POST", "PATCH", "PUT"].includes(method)) {
+    console.log(headers)
+    if (["POST", "PATCH", "PUT", "DELETE"].includes(method)) {
         response = await fetch(url, {
             "method": method,
             "headers": headers,

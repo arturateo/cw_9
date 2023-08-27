@@ -30,7 +30,7 @@
                                     {% if photo.album %}{{ photo.album }}{% else %} Альбома нет{% endif %}</p>
                             {% endif %}
                             <p class="card-text">{{ photo.private }}</p>
-                            a
+                            {% if user.is_authenticated %}
                                 {% if user in photo.favorites.all %}
                                     <a class="favoritesPhoto" href="{% url "api_v1:photos-unfavorite" photo.pk %}"
                                        data-photo-id="{{ photo.pk }}"><i

@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'accounts',
     'albums',
-    'photos'
+    'photos',
+    'api_v1'
 ]
 
 MIDDLEWARE = [
