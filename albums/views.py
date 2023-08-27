@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
 
 from albums.forms.albums_form import AlbumsForm
@@ -38,6 +38,7 @@ class AlbumsCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse("albums:detail", kwargs={"pk": self.object.pk})
+
 
 class AlbumsUpdateView(PermissionRequiredMixin, UpdateView):
     model = Albums

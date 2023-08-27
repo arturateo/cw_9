@@ -40,6 +40,8 @@ class PhotosView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
         return self.request.user == self.get_object().author or not self.get_object().private
 
 
+
+
 class PhotosCreateView(LoginRequiredMixin, CreateView):
     model = Photos
     form_class = PhotosForm
@@ -51,14 +53,12 @@ class PhotosCreateView(LoginRequiredMixin, CreateView):
         return kw
 
     def form_valid(self, form):
-        print(2)
         photo = form.save(commit=False)
         photo.author = self.request.user
         photo.save()
         return redirect("photos:detail", pk=photo.pk)
 
     def get_success_url(self):
-        print(1)
         return reverse("photos:detail", kwargs={"pk": self.object.pk})
 
 

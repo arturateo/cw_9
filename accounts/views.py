@@ -10,6 +10,7 @@ from rest_framework.authtoken.models import Token
 from accounts.forms import CustomRegisterForm, LoginForm
 from accounts.models import User
 from albums.models import Albums
+from galery.settings import LOGIN_REDIRECT_URL
 from photos.models import Photos
 
 
@@ -21,7 +22,6 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        Token.objects.create(user=user)
         login(self.request, user)
         return redirect(self.get_success_url())
 
@@ -55,4 +55,11 @@ class ProfileView(LoginRequiredMixin, DetailView):
 class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
     form_class = LoginForm
+
+    def form_valid(self, form):
+        user = form.get_user()
+        login(self.request, user)
+        if not Token.objects.all().filter(user=user):
+            Token.objects.create(user=user)
+        return redirect(LOGIN_REDIRECT_URL)
 
