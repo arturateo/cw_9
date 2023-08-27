@@ -1,21 +1,20 @@
 async function makeRequest(url, method = 'GET') {
     let headers = {};
     let response;
-    console.log(method)
     if (method !== "GET") {
         headers = {
             'Authorization': `Token ${getCookie("token")}`,
             "Content-Type": "application/json",
         }
     }
-    console.log(headers)
-    if (["POST", "PATCH", "PUT", "DELETE"].includes(method)) {
+
+    if (["POST", "PATCH", "PUT"].includes(method)) {
         response = await fetch(url, {
             "method": method,
-            'Authorization': `Token ${getCookie("token")}`,
-            "headers": headers
+            "headers": headers,
         });
-    } else {
+    }
+    else {
         response = await fetch(url, {
             "method": method,
             "headers": headers,
@@ -25,7 +24,6 @@ async function makeRequest(url, method = 'GET') {
     if (response.ok) {
         return await response.json();
     } else {
-        console.log(response.statusText)
         let error = new Error(response.statusText);
         throw error;
     }
@@ -35,7 +33,7 @@ async function onClickPhoto(event) {
     event.preventDefault();
     let target = event.target;
     let target_parent = target.parentElement
-    let url = target_parent.href ;
+    let url = target_parent.href;
     let photoId = target_parent.dataset.photoId
 
     let method = "POST"
@@ -45,7 +43,7 @@ async function onClickPhoto(event) {
     console.log(method)
 
     let response = await makeRequest(url, method);
-    if (target.classList.value.includes("fa-regular")){
+    if (target.classList.value.includes("fa-regular")) {
         target.classList = "fa-solid fa-heart fa-2xl";
         target_parent.href = `/api/v1/favorites-photo/${photoId}/unfavorite/`
     } else {
@@ -59,7 +57,7 @@ async function onClickAlbum(event) {
     event.preventDefault();
     let target = event.target;
     let target_parent = target.parentElement
-    let url = target_parent.href ;
+    let url = target_parent.href;
     let albumId = target_parent.dataset.albumId
 
     let method = "POST"
@@ -69,7 +67,7 @@ async function onClickAlbum(event) {
     console.log(method)
 
     let response = await makeRequest(url, method);
-    if (target.classList.value.includes("fa-regular")){
+    if (target.classList.value.includes("fa-regular")) {
         target.classList = "fa-solid fa-heart fa-2xl";
         target_parent.href = `/api/v1/favorites-albums/${albumId}/unfavorite/`
     } else {
@@ -103,7 +101,7 @@ function onLoad() {
     }
     let favoriteAlbums = document.getElementsByClassName("favoritesAlbum")
     for (let favoriteAlbum of favoriteAlbums) {
-        favoriteAlbum .addEventListener("click", onClickAlbum)
+        favoriteAlbum.addEventListener("click", onClickAlbum)
     }
 }
 

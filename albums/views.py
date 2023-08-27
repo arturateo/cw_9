@@ -30,7 +30,6 @@ class AlbumsView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
         return self.request.user == self.get_object().author or not self.get_object().private
 
 
-
 class AlbumsCreateView(LoginRequiredMixin, CreateView):
     model = Albums
     form_class = AlbumsForm

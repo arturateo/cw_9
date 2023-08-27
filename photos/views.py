@@ -4,10 +4,11 @@ from urllib.parse import urlencode
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
+from rest_framework import status
 
 from albums.models import Albums
 from photos.forms.photos_form import PhotosForm
@@ -21,7 +22,7 @@ def get_uniq_url(request, *args, **kwargs):
             photo.uniq_url = secrets.token_urlsafe(32)[:32]
             photo.save()
             return redirect("photos:private_detail", url=photo.uniq_url)
-    return redirect("photos:detail", pk=kwargs['pk'])
+    return HttpResponse("Not available", status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 # Create your views here.
@@ -30,12 +31,6 @@ class PhotosListView(ListView):
     template_name = 'photos/photos_list.html'
     context_object_name = 'photos'
     ordering = ("-create_date",)
-
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        if request.user.is_authenticated:
-            response.set_cookie('token', request.user.auth_token.key)
-        return response
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -58,6 +53,7 @@ class PhotosPrivateView(DetailView):
     context_object_name = 'photo'
     slug_field = 'uniq_url'
     slug_url_kwarg = 'url'
+
 
 class PhotosCreateView(LoginRequiredMixin, CreateView):
     model = Photos

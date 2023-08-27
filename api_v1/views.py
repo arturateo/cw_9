@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from api_v1.permissions import IsAuthor
 from api_v1.serializers import PhotosSerializer, AlbumsSerializer
 from albums.models import Albums
 from photos.models import Photos
@@ -23,13 +24,24 @@ class FavoritesPhotoViewSet(viewsets.ModelViewSet):
     queryset = Photos.objects.all()
     serializer_class = PhotosSerializer
 
-    @action(methods=["POST"], detail=True, url_path="favorite", url_name="favorite")
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return []
+        elif self.request.method == "POST":
+            return [IsAuthenticated()]
+        elif self.request.method is ['PUT', 'PATCH', 'DELETE']:
+            return [IsAuthor()]
+        return super().get_permissions()
+
+    @action(methods=["POST"], detail=True, permission_classes=[IsAuthenticated], url_path="favorite",
+            url_name="favorite")
     def add_favorite_photo(self, request, *args, **kwargs):
         photo = self.get_object()
         photo.favorites.add(request.user)
         return Response({"answer": "Фото добавлен в избраное"})
 
-    @action(methods=["DELETE"], detail=True, url_path="unfavorite", url_name="unfavorite")
+    @action(methods=["DELETE"], detail=True, permission_classes=[IsAuthenticated], url_path="unfavorite",
+            url_name="unfavorite")
     def delete_favorite_photo(self, request, *args, **kwargs):
         photo = self.get_object()
         photo.favorites.remove(request.user)
@@ -40,13 +52,24 @@ class FavoritesAlbumViewSet(viewsets.ModelViewSet):
     queryset = Albums.objects.all()
     serializer_class = AlbumsSerializer
 
-    @action(methods=["POST"], detail=True, url_path="favorite", url_name="favorite")
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return [IsAuthenticated()]
+        elif self.request.method == "POST":
+            return [IsAuthenticated()]
+        elif self.request.method is ['PUT', 'PATCH', 'DELETE']:
+            return [IsAuthor()]
+        return super().get_permissions()
+
+    @action(methods=["POST"], detail=True, permission_classes=[IsAuthenticated], url_path="favorite",
+            url_name="favorite")
     def add_favorite_album(self, request, *args, **kwargs):
         album = self.get_object()
         album.favorites.add(request.user)
         return Response({"answer": "Альбом добавлен в избраное"})
 
-    @action(methods=["DELETE"], detail=True, url_path="unfavorite", url_name="unfavorite")
+    @action(methods=["DELETE"], detail=True, permission_classes=[IsAuthenticated], url_path="unfavorite",
+            url_name="unfavorite")
     def delete_favorite_album(self, request, *args, **kwargs):
         album = self.get_object()
         album.favorites.remove(request.user)
